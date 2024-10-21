@@ -15,57 +15,71 @@
 /**
  * Program entry point
  */
-val coins = 4
+val coins = 7
+val size = 16
+val board = initBoard(size, coins)
 fun main() {
-    val board = initBoard(10, coins)
-    displayBoard(board)
+    while (true) {
+        displayBoard()
+        moveCoin()
+    }
 }
 
-
-fun initBoard(size: Int, coins: Int): Map<Int, Char> {
-    val board = mutableMapOf<Int, Char>()
-    repeat(size) { i -> board[i + 1] = '_' }
-
-    // Coin init - inits and shuffles a list from 1 to size then inserts coins in these spots
-    val coinPositions = mutableListOf<Int>()
-    repeat(size) { index -> coinPositions.add(index + 1) }
-    coinPositions.shuffle()
-    board[coinPositions[1]] = 'g'
-    repeat(coins - 1) { i -> board[coinPositions[i + 2]] = 'c' }
-    return(board)
+fun initBoard(size: Int, coins: Int): MutableList<Char> {
+    val board = mutableListOf<Char>()
+    // Add coins in order then shuffle the board
+    repeat(size - coins) { board.add('_') }
+    repeat(coins - 1) { board.add('c') }
+    board.add('g')
+    board.shuffle()
+    return board
 }
 
-fun displayBoard(board: Map<Int, Char>) {
-    print("┌")
-    repeat(coins) {print("─")}
-    println("┐")
+fun displayBoard() {
+    print(" ")
+    for (i in 1..size) {
+        if (i < 10) {print(" ${i}  ")}
+        else {print("${i}  ")}
+    }
+    println()
+
+    print("┌─")
+    repeat(size-1) {print("──┬─")}
+    println("──┐")
 
     print("│")
-    repeat(coins)
+    repeat(size) { i -> print(" ${board[i]} │")}
+    println()
+
+    print("└─")
+    repeat(size-1) {print("──┴─")}
+    println("──┘")
 }
 
+fun moveCoin() {
+    print("Move coin number: ")
+    val coinSlot = readln().toInt() - 1 // -1 because zero indexing
 
+    // Take coin off board
+    if (coinSlot == 0) {
+        board[0] = '_'
+        return
+    }
 
-
-
-
-//    val board = mutableListOf<String>()
-//    repeat(size) {board.add("_")} // Add size amount of spaces
-//
-//    // Coin init
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // Count how many slots the coin can be moved
+    var freeSlots = 0
+    for (i in (coinSlot - 1) downTo 0) {
+        if (board[i] == '_') {freeSlots ++}
+        else {
+            println()
+            break
+        }
+    }
+    when (freeSlots) {
+        0 -> {println("Invalid move -_-"); return}
+        else -> print("Slots to move left (max of $freeSlots): ")
+    }
+    val slots = readln().toInt() // Input validation!
+    board[coinSlot - slots] =  board[coinSlot]
+    board[coinSlot] = '_'
+}
