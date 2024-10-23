@@ -15,8 +15,8 @@
 /**
  * Program entry point
  */
-val coins = 7
-val size = 16
+val coins = 5
+val size = 12
 val board = initBoard(size, coins)
 fun main() {
     while (true) {
@@ -60,10 +60,19 @@ fun moveCoin() {
     print("Move coin number: ")
     val coinSlot = readln().toInt() - 1 // -1 because zero indexing
 
+    // Check to ensure valid move
+    if (board[coinSlot] == '_') {
+        println("Slot ${coinSlot+1} is empty")
+        return
+    }
+
     // Take coin off board
     if (coinSlot == 0) {
-        board[0] = '_'
-        return
+        when (board[coinSlot]) {
+            '_' -> return
+            'c' -> board[0] = '_'
+            'g' -> {println("You win"); return}
+        }
     }
 
     // Count how many slots the coin can be moved
@@ -79,7 +88,12 @@ fun moveCoin() {
         0 -> {println("Invalid move -_-"); return}
         else -> print("Slots to move left (max of $freeSlots): ")
     }
-    val slots = readln().toInt() // Input validation!
+
+    // Input validation
+    var slots = 0
+    while (slots !in 1..freeSlots) {
+        slots = readln().toInt()
+    }
     board[coinSlot - slots] =  board[coinSlot]
     board[coinSlot] = '_'
 }
