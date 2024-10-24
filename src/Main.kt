@@ -23,7 +23,7 @@ fun main() {
     while (true) {
         for (player in players) {
             displayBoard()
-            print("$player - select a coin to move:  ")
+            print("$player - select a coin to (re)move:  ")
             while (moveCoin() != 1) {
                 moveCoin()
             }
@@ -74,14 +74,14 @@ fun displayBoard() {
 fun moveCoin(): Int {
     var coinSlot = readln().toIntOrNull()
     while (coinSlot == null || coinSlot !in 1..size) {
-        print("That slot doesn't exist. Please select a coin to move: ")
+        print("That slot doesn't exist. Please select a coin to (re)move: ")
         coinSlot = readln().toIntOrNull()
     }
     coinSlot -= 1 // -1 because zero indexing
 
     // Check to ensure valid move
     if (board[coinSlot] == "_") {
-        print("Slot ${coinSlot+1} is empty. Please select a coin to move: ")
+        print("Slot ${coinSlot+1} is empty. Please select a coin to (re)move: ")
         return 0
     }
 
@@ -89,7 +89,7 @@ fun moveCoin(): Int {
     if (coinSlot == 0) {
         when (board[coinSlot]) {
             "c" -> {board[0] = "_"; return 1}
-            "g" -> {println("You win"); return 2}
+            "g".yellow() -> {println("You win"); return 2}
         }
     }
 
@@ -102,18 +102,23 @@ fun moveCoin(): Int {
             break
         }
     }
+    var moveSlot: Int?
     when (freeSlots) {
         0 -> {print("That coin has no valid moves. Try selecting a different coin to move:  "); return 0}
-        else -> print("Slots to move left (max of $freeSlots): ")
+        1 -> moveSlot = coinSlot - 1
+        else -> {
+            print("Slot to move to: (down to slot ${coinSlot + 1 - freeSlots}): ")
+            // Input validation
+            moveSlot = readln().toIntOrNull()
+            while (moveSlot == null || moveSlot !in 1..freeSlots) {
+                print("You can't move to that slot. Try again: ")
+                moveSlot = readln().toIntOrNull()
+            }
+            moveSlot -= 1
+        }
     }
 
-    // Input validation
-    var slots = readln().toIntOrNull()
-    while (slots == null || slots !in 1..freeSlots) {
-        print("You can't move that many slots left. Try a different amount of slots: ")
-        slots = readln().toIntOrNull()
-    }
-    board[coinSlot - slots] =  board[coinSlot]
+    board[moveSlot] = board[coinSlot]
     board[coinSlot] = "_"
     return 1
 }
