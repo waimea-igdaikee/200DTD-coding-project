@@ -21,7 +21,7 @@ val board = initBoard(size, coins)
 fun main() {
     while (true) {
         displayBoard()
-        moveCoin()
+        while (moveCoin() != 1) {moveCoin()}
     }
 }
 
