@@ -56,22 +56,25 @@ fun displayBoard() {
     println("──┘")
 }
 
-fun moveCoin() {
+fun moveCoin(): Int {
     print("Move coin number: ")
-    val coinSlot = readln().toInt() - 1 // -1 because zero indexing
+    var coinSlot = readln().toIntOrNull()
+    while (coinSlot == null) {
+        coinSlot = readln().toIntOrNull()
+    }
+    coinSlot -= 1 // -1 because zero indexing
 
     // Check to ensure valid move
     if (board[coinSlot] == '_') {
         println("Slot ${coinSlot+1} is empty")
-        return
+        return 0
     }
 
-    // Take coin off board
+    // Take coin off board if applicable
     if (coinSlot == 0) {
         when (board[coinSlot]) {
-            '_' -> return
-            'c' -> board[0] = '_'
-            'g' -> {println("You win"); return}
+            'c' -> {board[0] = '_'; return 1}
+            'g' -> {println("You win"); return 2}
         }
     }
 
@@ -85,7 +88,7 @@ fun moveCoin() {
         }
     }
     when (freeSlots) {
-        0 -> {println("Invalid move -_-"); return}
+        0 -> {println("That coin has no valid moves."); return 0}
         else -> print("Slots to move left (max of $freeSlots): ")
     }
 
@@ -96,4 +99,5 @@ fun moveCoin() {
     }
     board[coinSlot - slots] =  board[coinSlot]
     board[coinSlot] = '_'
+    return 1
 }
