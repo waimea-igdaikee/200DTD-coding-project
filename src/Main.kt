@@ -15,15 +15,16 @@
 /**
  * Program entry point
  */
-val coins = 5
-val size = 12
-val board = initBoard(size, coins)
+val board = mutableListOf<String>()
+var size = 0
+
 fun main() {
     val players = initPlayers()
+    initBoard()
     while (true) {
         for (player in players) {
             displayBoard()
-            print("$player - select a coin to (re)move:  ")
+            print("$player - select a coin to (re)move: ")
             while (moveCoin() != 1) {
                 moveCoin()
             }
@@ -37,24 +38,38 @@ fun initPlayers(): MutableList<String> {
     players.add(readln())
     print("Player 2 - enter your name: ")
     players.add(readln())
+    println("${players[0]} and ${players[1]} - welcome to Old Gold!")
     return players
 }
 
-fun initBoard(size: Int, coins: Int): MutableList<String> {
-    val board = mutableListOf<String>()
+fun initBoard() {
+    print("Enter a board size: ")
+    var tempSize = readln().toIntOrNull()
+    while (tempSize == null || tempSize !in 3..999) {
+        print("You can't play on a board of that size. Pick a different size: ")
+        tempSize = readln().toIntOrNull()
+    }
+    size = tempSize
+
+    print("How many coins would you like? ~${size / 2} recommended: ")
+    var coins = readln().toIntOrNull()
+    while (coins == null || coins !in 1..size) {
+        print("You can't play with that number of coins. Pick a different amount:")
+        coins = readln().toIntOrNull()
+    }
+
     // Add coins in order then shuffle the board
     repeat(size - coins) { board.add("_") }
     repeat(coins - 1) { board.add("c") }
     board.add("g".yellow())
     board.shuffle()
-    return board
 }
 
 fun displayBoard() {
     print(" ")
     for (i in 1..size) {
-        if (i < 10) {print(" ${i}  ")}
-        else {print("${i}  ")}
+        if (i < 10) {print(" $i  ")}
+        else {print("$i  ")}
     }
     println()
 
@@ -89,7 +104,7 @@ fun moveCoin(): Int {
     if (coinSlot == 0) {
         when (board[coinSlot]) {
             "c" -> {board[0] = "_"; return 1}
-            "g".yellow() -> {println("You win"); return 2}
+            "g".yellow() -> return 2
         }
     }
 
@@ -98,7 +113,6 @@ fun moveCoin(): Int {
     for (i in (coinSlot - 1) downTo 0) {
         if (board[i] == "_") {freeSlots ++}
         else {
-            println()
             break
         }
     }
