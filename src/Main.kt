@@ -1,9 +1,9 @@
 /**
  * ------------------------------------------------------------------------
- * PROJECT NAME HERE
+ * Old Gold
  * Level 2 programming project
  *
- * by YOUR NAME HERE
+ * by Indiana Daikee
  *
  * BRIEF PROJECT DESCRIPTION HERE
  * BRIEF PROJECT DESCRIPTION HERE
@@ -11,25 +11,30 @@
  * ------------------------------------------------------------------------
  */
 
-
-/**
- * Program entry point
- */
 val board = mutableListOf<String>()
 var size = 0
+var success = 0
+var winner: String? = null
 
 fun main() {
     val players = initPlayers()
     initBoard()
-    while (true) {
+    gameLoop@ while (true) {
         for (player in players) {
             displayBoard()
             print("$player - select a coin to (re)move: ")
-            while (moveCoin() != 1) {
-                moveCoin()
+            success = moveCoin()
+            while (success == 0) {
+                success = moveCoin()
+            }
+
+            if (success == 2) {
+                winner = player
+                break@gameLoop
             }
         }
     }
+    print("$winner has won the game!")
 }
 
 fun initPlayers(): MutableList<String> {
@@ -43,15 +48,15 @@ fun initPlayers(): MutableList<String> {
 }
 
 fun initBoard() {
-    print("Enter a board size: ")
+    print("Enter a board size (~16 recommended): ")
     var tempSize = readln().toIntOrNull()
-    while (tempSize == null || tempSize !in 3..999) {
+    while (tempSize == null || tempSize !in 3..99) {
         print("You can't play on a board of that size. Pick a different size: ")
         tempSize = readln().toIntOrNull()
     }
     size = tempSize
 
-    print("How many coins would you like? ~${size / 2} recommended: ")
+    print("How many coins would you like (~${size / 3} recommended)? ")
     var coins = readln().toIntOrNull()
     while (coins == null || coins !in 1..size) {
         print("You can't play with that number of coins. Pick a different amount:")
@@ -59,10 +64,13 @@ fun initBoard() {
     }
 
     // Add coins in order then shuffle the board
+    board.add("g".yellow())
     repeat(size - coins) { board.add("_") }
     repeat(coins - 1) { board.add("c") }
-    board.add("g".yellow())
-    board.shuffle()
+    while (board[0] == "g".yellow()) { // Ensures that the game won't start with gold on slot 1
+        board.shuffle()
+    }
+
 }
 
 fun displayBoard() {
