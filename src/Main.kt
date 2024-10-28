@@ -66,8 +66,8 @@ fun initBoard() {
     // Add coins in order then shuffle the board
     board.add("g".yellow())
     repeat(size - coins) { board.add("_") }
-    repeat(coins - 1) { board.add("c") }
-    while (board[0] == "g".yellow()) { // Ensures that the game won't start with gold on slot 1
+    repeat(coins - 1) { board.add("⬤") }
+    while (board[0] == "⬤".yellow()) { // Ensures that the game won't start with gold on slot 1
         board.shuffle()
     }
 
@@ -111,8 +111,8 @@ fun moveCoin(): Int {
     // Take coin off board if applicable
     if (coinSlot == 0) {
         when (board[coinSlot]) {
-            "c" -> {board[0] = "_"; return 1}
-            "g".yellow() -> return 2
+            "⬤" -> {board[0] = "_"; return 1}
+            "⬤".yellow() -> return 2
         }
     }
 

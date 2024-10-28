@@ -8,10 +8,7 @@ This project is assessed against [AS91896](https://www.nzqa.govt.nz/nqfdocs/ncea
 
 The project involves the programming of a two-player game.
 
-BRIEF PROJECT DESCRIPTION HERE
-BRIEF PROJECT DESCRIPTION HERE
-BRIEF PROJECT DESCRIPTION HERE
-BRIEF PROJECT DESCRIPTION HERE
+This project is a kotlin implementation of the two-play game Old Gold. The game consists of a board of coins, one of which is gold. Players take turns moving a coin any number of spaces left 
 
 
 ## Source Code
