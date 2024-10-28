@@ -13,11 +13,11 @@
 
 val board = mutableListOf<String>()
 var size = 0
-var success = 0
-var winner: String? = null
 
 fun main() {
+    var success: Int
     val players = initPlayers()
+    val winner: String?
     initBoard()
     gameLoop@ while (true) {
         for (player in players) {
@@ -34,15 +34,15 @@ fun main() {
             }
         }
     }
-    print("$winner has won the game!")
+    print("$winner has " +  "won the game!".yellow())
 }
 
 fun initPlayers(): MutableList<String> {
     val players = mutableListOf<String>()
-    print("Player 1 - enter your name: ")
-    players.add(readln())
-    print("Player 2 - enter your name: ")
-    players.add(readln())
+    print("Player 1".blue() + " - enter your name: ")
+    players.add(readln().blue())
+    print("Player 2".red() + " - enter your name: ")
+    players.add(readln().red())
     println("${players[0]} and ${players[1]} - welcome to Old Gold!")
     return players
 }
@@ -55,11 +55,11 @@ fun initBoard() {
         tempSize = readln().toIntOrNull()
     }
     size = tempSize
-
-    print("How many coins would you like (~${size / 3} recommended)? ")
+    val suitableCoins = (size / 2.5).toInt() // I found this to be a good proportion of coins
+    print("How many coins would you like (~$suitableCoins recommended): ")
     var coins = readln().toIntOrNull()
     while (coins == null || coins !in 1..size) {
-        print("You can't play with that number of coins. Pick a different amount:")
+        print("You can't play with that number of coins. Pick a different amount: ")
         coins = readln().toIntOrNull()
     }
 
@@ -120,19 +120,18 @@ fun moveCoin(): Int {
     var freeSlots = 0
     for (i in (coinSlot - 1) downTo 0) {
         if (board[i] == "_") {freeSlots ++}
-        else {
-            break
-        }
+        else {break}
     }
     var moveSlot: Int?
     when (freeSlots) {
-        0 -> {print("That coin has no valid moves. Try selecting a different coin to move:  "); return 0}
+        0 -> {print("That coin has no valid moves. Try selecting a different coin to move: "); return 0}
         1 -> moveSlot = coinSlot - 1
         else -> {
-            print("Slot to move to: (down to slot ${coinSlot + 1 - freeSlots}): ")
+            val maxSlot = coinSlot - freeSlots
+            print("Slot to move to (maximum down to slot ${maxSlot + 1}): ")
             // Input validation
             moveSlot = readln().toIntOrNull()
-            while (moveSlot == null || moveSlot !in 1..freeSlots) {
+            while (moveSlot == null || moveSlot !in maxSlot..< coinSlot) {
                 print("You can't move to that slot. Try again: ")
                 moveSlot = readln().toIntOrNull()
             }
