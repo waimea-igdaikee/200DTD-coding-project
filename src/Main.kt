@@ -39,10 +39,20 @@ fun main() {
 
 fun initPlayers(): MutableList<String> {
     val players = mutableListOf<String>()
-    print("Player 1".blue() + " - enter your name: ")
-    players.add(readln().blue())
-    print("Player 2".red() + " - enter your name: ")
-    players.add(readln().red())
+    var player = ""
+    while (player.isBlank()) {
+        print("Player 1".blue() + " - enter your name: ")
+        player = readln()
+    }
+    players.add(player.blue())
+
+    player = ""
+    while (player.isBlank()) {
+        print("Player 2".red() + " - enter your name: ")
+        player = readln()
+    }
+    players.add(player.red())
+
     println("${players[0]} and ${players[1]} - welcome to Old Gold!")
     return players
 }
@@ -64,10 +74,10 @@ fun initBoard() {
     }
 
     // Add coins in order then shuffle the board
-    board.add("g".yellow())
+    board.add("⭘".yellow())
     repeat(size - coins) { board.add("_") }
-    repeat(coins - 1) { board.add("⬤") }
-    while (board[0] == "⬤".yellow()) { // Ensures that the game won't start with gold on slot 1
+    repeat(coins - 1) { board.add("⭘") }
+    while (board[0] == "⭘".yellow()) { // Ensures that the game won't start with gold on slot 1
         board.shuffle()
     }
 
@@ -111,8 +121,8 @@ fun moveCoin(): Int {
     // Take coin off board if applicable
     if (coinSlot == 0) {
         when (board[coinSlot]) {
-            "⬤" -> {board[0] = "_"; return 1}
-            "⬤".yellow() -> return 2
+            "⭘" -> {board[0] = "_"; return 1}
+            "⭘".yellow() -> return 2
         }
     }
 
@@ -127,11 +137,11 @@ fun moveCoin(): Int {
         0 -> {print("That coin has no valid moves. Try selecting a different coin to move: "); return 0}
         1 -> moveSlot = coinSlot - 1
         else -> {
-            val maxSlot = coinSlot - freeSlots
-            print("Slot to move to (maximum down to slot ${maxSlot + 1}): ")
+            val maxSlot = coinSlot - freeSlots + 1
+            print("Slot to move to (maximum down to slot ${maxSlot }): ")
             // Input validation
             moveSlot = readln().toIntOrNull()
-            while (moveSlot == null || moveSlot !in maxSlot..< coinSlot) {
+            while (moveSlot == null || moveSlot !in maxSlot..coinSlot) {
                 print("You can't move to that slot. Try again: ")
                 moveSlot = readln().toIntOrNull()
             }
