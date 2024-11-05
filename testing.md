@@ -2,20 +2,25 @@
 
 ## Game Description
 
-The project involves the programming of a two-player game.
-
-BRIEF DESCRIPTION OF GAME HERE
-BRIEF DESCRIPTION OF GAME HERE
-BRIEF DESCRIPTION OF GAME HERE
+The project involves the programming of the two player game 'Old Gold'. The game is played on a one-dimensional board with coins randomly distributed across it. Players take turns moving a coin any amount of spaces to the left without jumping over other coins. If a coin is in the leftmost slot it can be removed from the board. There is also one gold coin on the board - and the player to remove from the board it is the winner.
 
 ### Game Features and Rules
 
-The game has the following features and/or rules:
+When the game is run, players enter:
+- Their names
+- The size of the board they want to play on
+- The amount of coins they would like to use
 
-- GAME FEATURE / RULE
-- GAME FEATURE / RULE
-- GAME FEATURE / RULE
-- GAME FEATURE / RULE
+Players take turns making moves. A move consists of the player either moving a coin left, or removing it from the board. Below are the rules regarding these moves:
+
+Moving coins left. Any coin can be moved if it has at least one valid slot to move to. A slot is valid if:
+- It if left of the coin being moved
+- It is empty
+- There are no other coins between it and the coin being moved
+
+Removing coins:
+- Any coin in slot 1 (the leftmost slot) can be removed from the board.
+- If a player removes the gold coin, they win the game.
 
 ---
 

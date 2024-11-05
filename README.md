@@ -1,6 +1,6 @@
-# PROJECT NAME HERE
+# Old Gold
 
-### Level 2 Programming Project by YOUR NAME HERE
+### Level 2 Programming Project by Indiana Daikee
 
 This project is assessed against [AS91896](https://www.nzqa.govt.nz/nqfdocs/ncea-resource/achievements/2019/as91896.pdf)
 
@@ -8,7 +8,7 @@ This project is assessed against [AS91896](https://www.nzqa.govt.nz/nqfdocs/ncea
 
 The project involves the programming of a two-player game.
 
-This project is a kotlin implementation of the two-player game Old Gold. The game consists of a 1-dimensional board of coins, one of which is gold. Players take turns moving a coin any number of spaces left, though they cannot jump over other coins. Any coin can be removed from the board if it is in the leftmost slot. The winner is whoever removes the gold coin.
+This project is a kotlin implementation of the two-player game 'Old Gold'. The game consists of a 1-dimensional board of coins, one of which is gold. Players take turns moving a coin any number of spaces left, though they cannot jump over other coins. Any coin can be removed from the board if it is in the leftmost slot. The winner is whoever removes the gold coin.
 
 
 ## Source Code

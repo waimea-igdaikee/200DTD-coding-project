@@ -5,9 +5,10 @@
  *
  * by Indiana Daikee
  *
- * BRIEF PROJECT DESCRIPTION HERE
- * BRIEF PROJECT DESCRIPTION HERE
- * BRIEF PROJECT DESCRIPTION HERE
+ * This project is a kotlin implementation of the two-player game 'Old Gold'. The game consists
+ * of a 1-dimensional board of coins, one of which is gold. Players take turns moving a coin any
+ * number of spaces left, though they cannot jump over other coins. A coin can be removed from
+ * the board if it is in the leftmost slot. The winner is whoever removes the gold coin.
  * ------------------------------------------------------------------------
  */
 
@@ -61,8 +62,8 @@ fun initPlayers(): MutableList<String> {
 
 fun initBoard() {
     print("Enter a board size (~16 recommended): ")
-    // a local variable `inputSize` is used because we don't to write to the global `size`
-    // until we are sure it is valid
+    // a local variable `inputSize` is used because we don't to write to the
+    // global variable `size` until we are sure it is valid
     var inputSize = readln().toIntOrNull()
     while (inputSize == null || inputSize !in 3..99) {
         print("You can't play on a board of that size. Pick a different size: ")
