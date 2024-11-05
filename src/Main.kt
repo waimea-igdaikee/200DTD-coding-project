@@ -17,7 +17,7 @@ var size = 0
 fun main() {
     var success: Int
     val players = initPlayers()
-    val winner: String?
+    val winner: String
     initBoard()
     gameLoop@ while (true) {
         for (player in players) {
@@ -28,7 +28,9 @@ fun main() {
                 success = moveCoin()
             }
 
-            if (success == 2) {
+            // if success == 1 {move to next player's turn}
+
+            if (success == 2) { // moveCoin() returns 2 when a player wins
                 winner = player
                 break@gameLoop
             }
@@ -59,12 +61,14 @@ fun initPlayers(): MutableList<String> {
 
 fun initBoard() {
     print("Enter a board size (~16 recommended): ")
-    var tempSize = readln().toIntOrNull()
-    while (tempSize == null || tempSize !in 3..99) {
+    // a local variable `inputSize` is used because we don't to write to the global `size`
+    // until we are sure it is valid
+    var inputSize = readln().toIntOrNull()
+    while (inputSize == null || inputSize !in 3..99) {
         print("You can't play on a board of that size. Pick a different size: ")
-        tempSize = readln().toIntOrNull()
+        inputSize = readln().toIntOrNull()
     }
-    size = tempSize
+    size = inputSize
     val suitableCoins = (size / 2.5).toInt() // I found this to be a good proportion of coins
     print("How many coins would you like (~$suitableCoins recommended): ")
     var coins = readln().toIntOrNull()
@@ -73,7 +77,7 @@ fun initBoard() {
         coins = readln().toIntOrNull()
     }
 
-    // Add coins in order then shuffle the board
+    // Add coins in order then shuffle the board to randomize it
     board.add("⭘".yellow())
     repeat(size - coins) { board.add("_") }
     repeat(coins - 1) { board.add("⭘") }
@@ -84,12 +88,15 @@ fun initBoard() {
 }
 
 fun displayBoard() {
+    // Prints the number row above the board
     print(" ")
     for (i in 1..size) {
         if (i < 10) {print(" $i  ")}
         else {print("$i  ")}
     }
     println()
+
+    // Prints the actual board and the coins on it
 
     print("┌─")
     repeat(size-1) {print("──┬─")}
@@ -110,7 +117,7 @@ fun moveCoin(): Int {
         print("That slot doesn't exist. Please select a coin to (re)move: ")
         coinSlot = readln().toIntOrNull()
     }
-    coinSlot -= 1 // -1 because zero indexing
+    coinSlot -= 1 // -1 because of zero indexing
 
     // Check to ensure valid move
     if (board[coinSlot] == "_") {
@@ -148,7 +155,7 @@ fun moveCoin(): Int {
             moveSlot -= 1
         }
     }
-
+    // Actually move the coin
     board[moveSlot] = board[coinSlot]
     board[coinSlot] = "_"
     return 1
