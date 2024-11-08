@@ -3,7 +3,7 @@
  * Old Gold
  * Level 2 programming project
  *
- * by Indiana Daikee
+ * By Indiana Daikee
  *
  * This project is a kotlin implementation of the two-player game 'Old Gold'. The game consists
  * of a 1-dimensional board of coins, one of which is gold. Players take turns moving a coin any
@@ -17,8 +17,9 @@ var size = 0
 
 fun main() {
     var success: Int
-    val players = initPlayers()
     val winner: String
+
+    val players = initPlayers()
     initBoard()
     gameLoop@ while (true) {
         for (player in players) {
@@ -31,7 +32,7 @@ fun main() {
 
             // if success == 1 {move to next player's turn}
 
-            if (success == 2) { // moveCoin() returns 2 when a player wins
+            if (success == 2) { // break out of game loop (success == 2 when a player wins)
                 winner = player
                 break@gameLoop
             }
@@ -62,15 +63,15 @@ fun initPlayers(): MutableList<String> {
 
 fun initBoard() {
     print("Enter a board size (~16 recommended): ")
-    // a local variable `inputSize` is used because we don't to write to the
-    // global variable `size` until we are sure it is valid
+    /** A local variable `inputSize` is used because we don't to write to the
+      * global variable `size` until we are sure it is valid */
     var inputSize = readln().toIntOrNull()
     while (inputSize == null || inputSize !in 3..99) {
         print("You can't play on a board of that size. Pick a different size: ")
         inputSize = readln().toIntOrNull()
     }
     size = inputSize
-    val suitableCoins = (size / 2.5).toInt() // I found this to be a good proportion of coins
+    val suitableCoins = (size / 2.5).toInt() // Recommends a suitable amount of coins for the board size
     print("How many coins would you like (~$suitableCoins recommended): ")
     var coins = readln().toIntOrNull()
     while (coins == null || coins !in 1..size) {

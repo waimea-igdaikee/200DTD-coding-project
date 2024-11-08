@@ -142,12 +142,21 @@ As the video below shows, the setup of players works as expected.
 [oldgold_players.mkv](media%2Foldgold_players.mkv)
 
 
-### Setup and configuration of bard
+### Setup and configuration of board
 
 As seen in the videos below, the setup and player-configuration of the board works as intended.
 
 [oldgold_board.mkv](media%2Foldgold_board.mkv)  
 [oldgold_board2.mp4](media%2Foldgold_board2.mp4)
+
+One of the expected outcomes was that the game shouldn't start with a gold coin on slot 1. Whilst it was not talked about in the video, there are a couple lines of code which ensure the first slot cannot start with a gold coin:
+```
+    while (board[0] == "⭘".yellow()) { // Ensures that the game won't start with gold on slot 1
+        board.shuffle()
+    }
+```
+
+Throughout all my testing and filming I never saw a game start with a gold coin in the first slot, so I can say with a high degree of certainty that the final game meets this expected outcome.
 
 ### (Re)moving coins
 
